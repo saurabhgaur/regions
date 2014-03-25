@@ -1,0 +1,4642 @@
+<html>
+<head>
+  <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  <!-- <script type="text/javascript" src="./javascripts/d3.js"></script>-->
+  <script type="text/javascript"
+  src="./javascripts/jquery-1.11.0.js"></script>
+  <script type="text/javascript"
+  src="./javascripts/jquery-ui.js"></script>
+  <script type="text/javascript"
+  src="./javascripts/packery.pkgd.js"></script>
+
+  <style type="text/css" media="screen">
+    .panel { 
+    width: 25%;
+    background-color:yellow;
+    }
+    
+  </style>
+</head>
+  
+<body>
+<div id="Controls">
+<h2>Layout</h2>
+<div id="layout-mode-button-group" class="button-group">
+  <button class="button is-checked" data-layout-mode-value="masonry" checked="checked">masonry</button>
+  <button class="button" data-layout-mode-value="fitRows">fitRows</button>
+  <button class="button" data-layout-mode-value="cellsByRow">cellsByRow</button>
+  <button class="button" data-layout-mode-value="vertical"> vertical</button>
+  <button class="button" data-layout-mode-value="masonryHorizontal" data-is-horizontal="true">masonryHorizontal</button>
+  <button class="button" data-layout-mode-value="fitColumns" data-is-horizontal="true">fitColumns</button>
+  <button class="button" data-layout-mode-value="cellsByColumn" data-is-horizontal="true">cellsByColumn</button>
+  <button class="button" data-layout-mode-value="horizontal" data-is-horizontal="true">horizontal</button>
+</div>
+
+<h2>Filter</h2>
+<div id="filters" class="button-group">
+  <button class="button is-checked" data-filter-value="*">show all</button>
+  <button class="button" data-filter-value=".metal">metal</button>
+  <button class="button" data-filter-value=".transition">transition</button>
+  <button class="button" data-filter-value=".alkali, .alkaline-earth">alkali and alkaline-earth</button>
+  <button class="button" data-filter-value=":not(.transition)">not transition</button>
+  <button class="button" data-filter-value=".metal:not(.transition)">metal but not transition</button>
+  <button class="button" data-filter-value="numberGreaterThan50">number > 50</button>
+  <button class="button" data-filter-value="ium">name ends with &ndash;ium</button>
+</div>
+
+<h2>Sort</h2>
+<div id="sorts" class="button-group">
+  <button class="button is-checked" data-sort-value="original-order">original order</button>
+  <button class="button" data-sort-value="name">name</button>
+  <button class="button" data-sort-value="symbol">symbol</button>
+  <button class="button" data-sort-value="number">number</button>
+  <button class="button" data-sort-value="weight">weight</button>
+  <button class="button" data-sort-value="category">category</button>
+</div>
+</div>
+<div id="Content">
+  Hello World!
+</div>  
+  
+  <script>
+    d3.select("#Content");
+var data = {
+  "LYPLA1": [
+    {
+      "Gene": "LYPLA1",
+      "TiledRegionStart": "-22183",
+      "TiledRegionStop": "49922",
+      "GeneStart": "0",
+      "GeneStop": "38842",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "709"
+    },
+    {
+      "Gene": "LYPLA1",
+      "TiledRegionStart": "-22183",
+      "TiledRegionStop": "49922",
+      "GeneStart": "0",
+      "GeneStop": "38842",
+      "Mark": "Ab7",
+      "RegionStart": "0",
+      "RegionStop": "609"
+    }
+  ],
+  "TERF1": [
+    {
+      "Gene": "TERF1",
+      "TiledRegionStart": "-89291",
+      "TiledRegionStop": "48204",
+      "GeneStart": "0",
+      "GeneStop": "37771",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "709"
+    }
+  ],
+  "CFC1": [
+    {
+      "Gene": "CFC1",
+      "TiledRegionStart": "-32586",
+      "TiledRegionStop": "16683",
+      "GeneStart": "0",
+      "GeneStop": "8663",
+      "Mark": "Ab2",
+      "RegionStart": "8245",
+      "RegionStop": "8974"
+    },
+    {
+      "Gene": "CFC1",
+      "TiledRegionStart": "-32586",
+      "TiledRegionStop": "16683",
+      "GeneStart": "0",
+      "GeneStop": "8663",
+      "Mark": "Ab4",
+      "RegionStart": "24277",
+      "RegionStop": "25086"
+    },
+    {
+      "Gene": "CFC1",
+      "TiledRegionStart": "-32586",
+      "TiledRegionStop": "16683",
+      "GeneStart": "0",
+      "GeneStop": "8663",
+      "Mark": "Ab6",
+      "RegionStart": "24277",
+      "RegionStop": "25086"
+    },
+    {
+      "Gene": "CFC1",
+      "TiledRegionStart": "-32586",
+      "TiledRegionStop": "16683",
+      "GeneStart": "0",
+      "GeneStop": "8663",
+      "Mark": "Ab7",
+      "RegionStart": "24277",
+      "RegionStop": "25086"
+    }
+  ],
+  "FZD7": [
+    {
+      "Gene": "FZD7",
+      "TiledRegionStart": "-129567",
+      "TiledRegionStop": "34085",
+      "GeneStart": "0",
+      "GeneStop": "4776",
+      "Mark": "Ab2",
+      "RegionStart": "26234",
+      "RegionStop": "26843"
+    },
+    {
+      "Gene": "FZD7",
+      "TiledRegionStart": "-129567",
+      "TiledRegionStop": "34085",
+      "GeneStart": "0",
+      "GeneStop": "4776",
+      "Mark": "Ab2",
+      "RegionStart": "-63858",
+      "RegionStop": "-63099"
+    },
+    {
+      "Gene": "FZD7",
+      "TiledRegionStart": "-129567",
+      "TiledRegionStop": "34085",
+      "GeneStart": "0",
+      "GeneStop": "4776",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "3689"
+    },
+    {
+      "Gene": "FZD7",
+      "TiledRegionStart": "-129567",
+      "TiledRegionStop": "34085",
+      "GeneStart": "0",
+      "GeneStop": "4776",
+      "Mark": "Ab7",
+      "RegionStart": "-2284",
+      "RegionStop": "-1675"
+    },
+    {
+      "Gene": "FZD7",
+      "TiledRegionStart": "-129567",
+      "TiledRegionStop": "34085",
+      "GeneStart": "0",
+      "GeneStop": "4776",
+      "Mark": "Ab7",
+      "RegionStart": "-234",
+      "RegionStop": "565"
+    }
+  ],
+  "ADAM23": [
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab2",
+      "RegionStart": "0",
+      "RegionStop": "809"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab2",
+      "RegionStart": "-24463",
+      "RegionStop": "-23684"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab2",
+      "RegionStart": "7279",
+      "RegionStop": "8088"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab4",
+      "RegionStart": "0",
+      "RegionStop": "809"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab4",
+      "RegionStart": "-7229",
+      "RegionStop": "-6370"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1009"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab6",
+      "RegionStart": "-145729",
+      "RegionStop": "-145120"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab6",
+      "RegionStart": "-7429",
+      "RegionStop": "-6770"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab7",
+      "RegionStart": "0",
+      "RegionStop": "709"
+    },
+    {
+      "Gene": "ADAM23",
+      "TiledRegionStart": "-131332",
+      "TiledRegionStop": "176947",
+      "GeneStart": "0",
+      "GeneStop": "150611",
+      "Mark": "Ab7",
+      "RegionStart": "-7229",
+      "RegionStop": "-6370"
+    }
+  ],
+  "CREB1": [
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab2",
+      "RegionStart": "-212866",
+      "RegionStop": "-212157"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab2",
+      "RegionStart": "-410516",
+      "RegionStop": "-409837"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab4",
+      "RegionStart": "410566",
+      "RegionStop": "411195"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1159"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab6",
+      "RegionStart": "212916",
+      "RegionStop": "213575"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab6",
+      "RegionStart": "247416",
+      "RegionStop": "248025"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab6",
+      "RegionStart": "410216",
+      "RegionStop": "411195"
+    },
+    {
+      "Gene": "CREB1",
+      "TiledRegionStart": "-411415",
+      "TiledRegionStop": "73676",
+      "GeneStart": "0",
+      "GeneStop": "71744",
+      "Mark": "Ab7",
+      "RegionStart": "410216",
+      "RegionStop": "410925"
+    }
+  ],
+  "FN1": [
+    {
+      "Gene": "FN1",
+      "TiledRegionStart": "-6119",
+      "TiledRegionStop": "301414",
+      "GeneStart": "0",
+      "GeneStop": "67648",
+      "Mark": "Ab2",
+      "RegionStart": "0",
+      "RegionStop": "759"
+    },
+    {
+      "Gene": "FN1",
+      "TiledRegionStart": "-6119",
+      "TiledRegionStop": "301414",
+      "GeneStart": "0",
+      "GeneStop": "67648",
+      "Mark": "Ab4",
+      "RegionStart": "0",
+      "RegionStop": "1459"
+    },
+    {
+      "Gene": "FN1",
+      "TiledRegionStart": "-6119",
+      "TiledRegionStop": "301414",
+      "GeneStart": "0",
+      "GeneStop": "67648",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1989"
+    },
+    {
+      "Gene": "FN1",
+      "TiledRegionStart": "-6119",
+      "TiledRegionStop": "301414",
+      "GeneStart": "0",
+      "GeneStop": "67648",
+      "Mark": "Ab7",
+      "RegionStart": "0",
+      "RegionStop": "759"
+    }
+  ],
+  "XRCC5": [
+    {
+      "Gene": "XRCC5",
+      "TiledRegionStart": "-4525",
+      "TiledRegionStop": "119592",
+      "GeneStart": "0",
+      "GeneStop": "87428",
+      "Mark": "Ab4",
+      "RegionStart": "-62466",
+      "RegionStop": "-61707"
+    }
+  ],
+  "DES": [
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab2",
+      "RegionStart": "-12558",
+      "RegionStop": "-11759"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab2",
+      "RegionStart": "14334",
+      "RegionStop": "14943"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab2",
+      "RegionStart": "-14388",
+      "RegionStop": "-12309"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab2",
+      "RegionStart": "-858",
+      "RegionStop": "-189"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab4",
+      "RegionStart": "10658",
+      "RegionStop": "11517"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab4",
+      "RegionStart": "-14134",
+      "RegionStop": "-13325"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab4",
+      "RegionStart": "14908",
+      "RegionStop": "16297"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab4",
+      "RegionStart": "-6384",
+      "RegionStop": "-5125"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab4",
+      "RegionStart": "708",
+      "RegionStop": "1367"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1449"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "10408",
+      "RegionStop": "11357"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "-14184",
+      "RegionStop": "-13425"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "14388",
+      "RegionStop": "16297"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "-1564",
+      "RegionStop": "-535"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "-6084",
+      "RegionStop": "-4525"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab6",
+      "RegionStart": "708",
+      "RegionStop": "1527"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab7",
+      "RegionStart": "10408",
+      "RegionStop": "11357"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab7",
+      "RegionStart": "-14184",
+      "RegionStop": "-13425"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab7",
+      "RegionStart": "14908",
+      "RegionStop": "16297"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab7",
+      "RegionStart": "-1564",
+      "RegionStop": "-835"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab7",
+      "RegionStart": "-6384",
+      "RegionStop": "-5075"
+    },
+    {
+      "Gene": "DES",
+      "TiledRegionStart": "-42707",
+      "TiledRegionStop": "14953",
+      "GeneStart": "0",
+      "GeneStop": "7372",
+      "Mark": "Ab7",
+      "RegionStart": "708",
+      "RegionStop": "1367"
+    }
+  ],
+  "PAX3": [
+    {
+      "Gene": "PAX3",
+      "TiledRegionStart": "-585564",
+      "TiledRegionStop": "113897",
+      "GeneStart": "0",
+      "GeneStop": "94444",
+      "Mark": "Ab2",
+      "RegionStart": "-11994",
+      "RegionStop": "-11185"
+    },
+    {
+      "Gene": "PAX3",
+      "TiledRegionStart": "-585564",
+      "TiledRegionStop": "113897",
+      "GeneStart": "0",
+      "GeneStop": "94444",
+      "Mark": "Ab4",
+      "RegionStart": "-11994",
+      "RegionStop": "-11035"
+    },
+    {
+      "Gene": "PAX3",
+      "TiledRegionStart": "-585564",
+      "TiledRegionStop": "113897",
+      "GeneStart": "0",
+      "GeneStop": "94444",
+      "Mark": "Ab6",
+      "RegionStart": "-11944",
+      "RegionStop": "-11085"
+    },
+    {
+      "Gene": "PAX3",
+      "TiledRegionStart": "-585564",
+      "TiledRegionStop": "113897",
+      "GeneStart": "0",
+      "GeneStop": "94444",
+      "Mark": "Ab7",
+      "RegionStart": "-11944",
+      "RegionStop": "-11085"
+    },
+    {
+      "Gene": "PAX3",
+      "TiledRegionStart": "-585564",
+      "TiledRegionStop": "113897",
+      "GeneStart": "0",
+      "GeneStop": "94444",
+      "Mark": "Ab7",
+      "RegionStart": "-5974",
+      "RegionStop": "-5295"
+    }
+  ],
+  "GBX2": [
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab2",
+      "RegionStart": "-16358",
+      "RegionStop": "-15699"
+    },
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab4",
+      "RegionStart": "-12758",
+      "RegionStop": "-12149"
+    },
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab4",
+      "RegionStart": "-16348",
+      "RegionStop": "-15679"
+    },
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab4",
+      "RegionStart": "6934",
+      "RegionStop": "8693"
+    },
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab6",
+      "RegionStart": "114",
+      "RegionStop": "1203"
+    },
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab6",
+      "RegionStart": "-16348",
+      "RegionStop": "-15629"
+    },
+    {
+      "Gene": "GBX2",
+      "TiledRegionStart": "-32680",
+      "TiledRegionStop": "24716",
+      "GeneStart": "0",
+      "GeneStop": "3214",
+      "Mark": "Ab7",
+      "RegionStart": "-16348",
+      "RegionStop": "-15629"
+    }
+  ],
+  "TCFCP2L1": [
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "146938",
+      "RegionStop": "147547"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "150598",
+      "RegionStop": "151247"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "192538",
+      "RegionStop": "193397"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "207788",
+      "RegionStop": "210447"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "-2854",
+      "RegionStop": "-2195"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "55838",
+      "RegionStop": "56547"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "70968",
+      "RegionStop": "71847"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab2",
+      "RegionStart": "98228",
+      "RegionStop": "98997"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-146938",
+      "RegionStop": "-146329"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-150598",
+      "RegionStop": "-149899"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-192538",
+      "RegionStop": "-191679"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-24488",
+      "RegionStop": "-23879"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-27988",
+      "RegionStop": "-27179"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-70968",
+      "RegionStop": "-70139"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-91838",
+      "RegionStop": "-90879"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab4",
+      "RegionStart": "-98288",
+      "RegionStop": "-97629"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab6",
+      "RegionStart": "-146938",
+      "RegionStop": "-146329"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab6",
+      "RegionStart": "-208988",
+      "RegionStop": "-207529"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab6",
+      "RegionStart": "-28038",
+      "RegionStop": "-27329"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab6",
+      "RegionStart": "-91838",
+      "RegionStop": "-91229"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab7",
+      "RegionStart": "-146938",
+      "RegionStop": "-146329"
+    },
+    {
+      "Gene": "TCFCP2L1",
+      "TiledRegionStart": "-18483",
+      "TiledRegionStop": "206116",
+      "GeneStart": "0",
+      "GeneStop": "57223",
+      "Mark": "Ab7",
+      "RegionStart": "-28038",
+      "RegionStop": "-27329"
+    }
+  ],
+  "GLI2": [
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "-109555",
+      "RegionStop": "-108636"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "-136865",
+      "RegionStop": "-135806"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "-139115",
+      "RegionStop": "-138356"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "151977",
+      "RegionStop": "152846"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "157427",
+      "RegionStop": "158586"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "-167565",
+      "RegionStop": "-166956"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "179577",
+      "RegionStop": "180486"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "180927",
+      "RegionStop": "182166"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "193827",
+      "RegionStop": "194686"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "204777",
+      "RegionStop": "205536"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "-42265",
+      "RegionStop": "-40956"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "-43835",
+      "RegionStop": "-42446"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab2",
+      "RegionStart": "48327",
+      "RegionStop": "49466"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "-136865",
+      "RegionStop": "-136206"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "-139065",
+      "RegionStop": "-138456"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "157427",
+      "RegionStop": "158186"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "-167565",
+      "RegionStop": "-166956"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "179527",
+      "RegionStop": "180236"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "181027",
+      "RegionStop": "182086"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "197427",
+      "RegionStop": "198286"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "211977",
+      "RegionStop": "212586"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "37777",
+      "RegionStop": "38536"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "-42265",
+      "RegionStop": "-41006"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "-43835",
+      "RegionStop": "-42446"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "48327",
+      "RegionStop": "49466"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab4",
+      "RegionStart": "84027",
+      "RegionStop": "84836"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "-119765",
+      "RegionStop": "-119156"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "-136865",
+      "RegionStop": "-136056"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "-139165",
+      "RegionStop": "-138456"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "157427",
+      "RegionStop": "158186"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "179577",
+      "RegionStop": "180486"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "181127",
+      "RegionStop": "182166"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "193827",
+      "RegionStop": "194536"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "197427",
+      "RegionStop": "198286"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "204627",
+      "RegionStop": "205436"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "37677",
+      "RegionStop": "38586"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "-42915",
+      "RegionStop": "-42256"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "-43835",
+      "RegionStop": "-42446"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "48327",
+      "RegionStop": "49466"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "82677",
+      "RegionStop": "83296"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "84027",
+      "RegionStop": "84836"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab6",
+      "RegionStart": "-90265",
+      "RegionStop": "-89656"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "-136965",
+      "RegionStop": "-136256"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "179577",
+      "RegionStop": "180236"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "181377",
+      "RegionStop": "182166"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "204627",
+      "RegionStop": "205436"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "31647",
+      "RegionStop": "32386"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "37777",
+      "RegionStop": "38486"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "-43835",
+      "RegionStop": "-42496"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "48327",
+      "RegionStop": "49466"
+    },
+    {
+      "Gene": "GLI2",
+      "TiledRegionStart": "-148893",
+      "TiledRegionStop": "581404",
+      "GeneStart": "0",
+      "GeneStop": "219558",
+      "Mark": "Ab7",
+      "RegionStart": "84027",
+      "RegionStop": "84786"
+    }
+  ],
+  "INHBB": [
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "115956",
+      "RegionStop": "116815"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "12136",
+      "RegionStop": "13415"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "13856",
+      "RegionStop": "14565"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "153906",
+      "RegionStop": "154615"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "29956",
+      "RegionStop": "30945"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "-4036",
+      "RegionStop": "-3377"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "8306",
+      "RegionStop": "9065"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab2",
+      "RegionStart": "92716",
+      "RegionStop": "93365"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "0",
+      "RegionStop": "1259"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "116206",
+      "RegionStop": "116815"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "119456",
+      "RegionStop": "120465"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "-24286",
+      "RegionStop": "-23627"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "-28936",
+      "RegionStop": "-28077"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "29956",
+      "RegionStop": "30945"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "6756",
+      "RegionStop": "7615"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "8056",
+      "RegionStop": "9065"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab4",
+      "RegionStart": "92156",
+      "RegionStop": "93365"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1959"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "115956",
+      "RegionStop": "116835"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "119456",
+      "RegionStop": "120465"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "12136",
+      "RegionStop": "13365"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "1356",
+      "RegionStop": "2055"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "24156",
+      "RegionStop": "24825"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "-24286",
+      "RegionStop": "-23627"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "-28936",
+      "RegionStop": "-28077"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "29956",
+      "RegionStop": "30945"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "4056",
+      "RegionStop": "4665"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "46506",
+      "RegionStop": "47215"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "6956",
+      "RegionStop": "7615"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab6",
+      "RegionStart": "8056",
+      "RegionStop": "9065"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "0",
+      "RegionStop": "1609"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "115956",
+      "RegionStop": "116765"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "119456",
+      "RegionStop": "120465"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "12136",
+      "RegionStop": "12965"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "147356",
+      "RegionStop": "147965"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "-24286",
+      "RegionStop": "-23677"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "-28836",
+      "RegionStop": "-27877"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "29956",
+      "RegionStop": "30945"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "46506",
+      "RegionStop": "47215"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "6756",
+      "RegionStop": "7615"
+    },
+    {
+      "Gene": "INHBB",
+      "TiledRegionStart": "-361846",
+      "TiledRegionStop": "54844",
+      "GeneStart": "0",
+      "GeneStop": "6783",
+      "Mark": "Ab7",
+      "RegionStart": "8056",
+      "RegionStop": "9065"
+    }
+  ],
+  "CXCR4": [
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab2",
+      "RegionStart": "-118751",
+      "RegionStop": "-118062"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab2",
+      "RegionStart": "-120251",
+      "RegionStop": "-119562"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab2",
+      "RegionStart": "611",
+      "RegionStop": "1570"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab4",
+      "RegionStart": "-118831",
+      "RegionStop": "-118222"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab4",
+      "RegionStart": "-120251",
+      "RegionStop": "-119562"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab4",
+      "RegionStart": "-160131",
+      "RegionStop": "-159522"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab4",
+      "RegionStart": "-210641",
+      "RegionStop": "-209842"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab4",
+      "RegionStart": "711",
+      "RegionStop": "1570"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab4",
+      "RegionStart": "-94981",
+      "RegionStop": "-94372"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1909"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab6",
+      "RegionStart": "-120251",
+      "RegionStop": "-119562"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab6",
+      "RegionStart": "-210641",
+      "RegionStop": "-209842"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab7",
+      "RegionStart": "-120251",
+      "RegionStop": "-119562"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab7",
+      "RegionStart": "-210641",
+      "RegionStop": "-209842"
+    },
+    {
+      "Gene": "CXCR4",
+      "TiledRegionStart": "-170861",
+      "TiledRegionStop": "620580",
+      "GeneStart": "0",
+      "GeneStop": "4100",
+      "Mark": "Ab7",
+      "RegionStart": "761",
+      "RegionStop": "1570"
+    }
+  ],
+  "MYOG": [
+    {
+      "Gene": "MYOG",
+      "TiledRegionStart": "-54582",
+      "TiledRegionStop": "6766",
+      "GeneStart": "0",
+      "GeneStop": "2537",
+      "Mark": "Ab2",
+      "RegionStart": "-11673",
+      "RegionStop": "-10564"
+    },
+    {
+      "Gene": "MYOG",
+      "TiledRegionStart": "-54582",
+      "TiledRegionStop": "6766",
+      "GeneStart": "0",
+      "GeneStop": "2537",
+      "Mark": "Ab2",
+      "RegionStart": "-15523",
+      "RegionStop": "-14864"
+    },
+    {
+      "Gene": "MYOG",
+      "TiledRegionStart": "-54582",
+      "TiledRegionStop": "6766",
+      "GeneStart": "0",
+      "GeneStop": "2537",
+      "Mark": "Ab2",
+      "RegionStart": "-50173",
+      "RegionStop": "-49514"
+    },
+    {
+      "Gene": "MYOG",
+      "TiledRegionStart": "-54582",
+      "TiledRegionStop": "6766",
+      "GeneStart": "0",
+      "GeneStop": "2537",
+      "Mark": "Ab4",
+      "RegionStart": "3223",
+      "RegionStop": "4582"
+    },
+    {
+      "Gene": "MYOG",
+      "TiledRegionStart": "-54582",
+      "TiledRegionStop": "6766",
+      "GeneStart": "0",
+      "GeneStop": "2537",
+      "Mark": "Ab6",
+      "RegionStart": "11773",
+      "RegionStop": "12582"
+    }
+  ],
+  "PBX1": [
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab2",
+      "RegionStart": "0",
+      "RegionStop": "729"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab2",
+      "RegionStart": "205725",
+      "RegionStop": "206384"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab4",
+      "RegionStart": "0",
+      "RegionStop": "729"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab4",
+      "RegionStart": "205725",
+      "RegionStop": "206384"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1739"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab6",
+      "RegionStart": "8075",
+      "RegionStop": "8784"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab7",
+      "RegionStart": "0",
+      "RegionStop": "729"
+    },
+    {
+      "Gene": "PBX1",
+      "TiledRegionStart": "-270631",
+      "TiledRegionStop": "1333994",
+      "GeneStart": "0",
+      "GeneStop": "312894",
+      "Mark": "Ab7",
+      "RegionStart": "205825",
+      "RegionStop": "206534"
+    }
+  ],
+  "PYCR2": [
+    {
+      "Gene": "PYCR2",
+      "TiledRegionStart": "-5206",
+      "TiledRegionStop": "30730",
+      "GeneStart": "0",
+      "GeneStop": "3779",
+      "Mark": "Ab2",
+      "RegionStart": "3065",
+      "RegionStop": "3724"
+    },
+    {
+      "Gene": "PYCR2",
+      "TiledRegionStart": "-5206",
+      "TiledRegionStop": "30730",
+      "GeneStart": "0",
+      "GeneStop": "3779",
+      "Mark": "Ab4",
+      "RegionStart": "-2965",
+      "RegionStop": "-2206"
+    },
+    {
+      "Gene": "PYCR2",
+      "TiledRegionStart": "-5206",
+      "TiledRegionStop": "30730",
+      "GeneStart": "0",
+      "GeneStop": "3779",
+      "Mark": "Ab6",
+      "RegionStart": "-1985",
+      "RegionStop": "-1296"
+    },
+    {
+      "Gene": "PYCR2",
+      "TiledRegionStart": "-5206",
+      "TiledRegionStop": "30730",
+      "GeneStart": "0",
+      "GeneStop": "3779",
+      "Mark": "Ab6",
+      "RegionStart": "-3065",
+      "RegionStop": "-2406"
+    },
+    {
+      "Gene": "PYCR2",
+      "TiledRegionStart": "-5206",
+      "TiledRegionStop": "30730",
+      "GeneStart": "0",
+      "GeneStop": "3779",
+      "Mark": "Ab7",
+      "RegionStart": "-3065",
+      "RegionStop": "-2406"
+    },
+    {
+      "Gene": "PYCR2",
+      "TiledRegionStart": "-5206",
+      "TiledRegionStop": "30730",
+      "GeneStart": "0",
+      "GeneStop": "3779",
+      "Mark": "Ab7",
+      "RegionStart": "-4615",
+      "RegionStop": "-3956"
+    }
+  ],
+  "LEFTY1": [
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab2",
+      "RegionStart": "6385",
+      "RegionStop": "7394"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab2",
+      "RegionStart": "-6607",
+      "RegionStop": "-5648"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab4",
+      "RegionStart": "-6635",
+      "RegionStop": "-5876"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab4",
+      "RegionStart": "6957",
+      "RegionStop": "7586"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab6",
+      "RegionStart": "-185",
+      "RegionStop": "974"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab6",
+      "RegionStart": "-6045",
+      "RegionStop": "-4646"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab6",
+      "RegionStart": "6957",
+      "RegionStop": "7566"
+    },
+    {
+      "Gene": "LEFTY1",
+      "TiledRegionStart": "-26951",
+      "TiledRegionStop": "7479",
+      "GeneStart": "0",
+      "GeneStop": "3362",
+      "Mark": "Ab7",
+      "RegionStart": "-6635",
+      "RegionStop": "-5876"
+    }
+  ],
+  "ENAH": [
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab2",
+      "RegionStart": "131598",
+      "RegionStop": "132577"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab2",
+      "RegionStart": "-78694",
+      "RegionStop": "-78085"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab2",
+      "RegionStart": "97348",
+      "RegionStop": "98447"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab4",
+      "RegionStart": "131798",
+      "RegionStop": "132577"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab4",
+      "RegionStart": "97348",
+      "RegionStop": "98447"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab6",
+      "RegionStart": "131798",
+      "RegionStop": "132577"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab6",
+      "RegionStart": "-25244",
+      "RegionStop": "-24635"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab6",
+      "RegionStart": "97348",
+      "RegionStop": "98447"
+    },
+    {
+      "Gene": "ENAH",
+      "TiledRegionStart": "-62113",
+      "TiledRegionStop": "220305",
+      "GeneStart": "0",
+      "GeneStop": "115535",
+      "Mark": "Ab7",
+      "RegionStart": "97348",
+      "RegionStop": "98447"
+    }
+  ],
+  "PROX1": [
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "-11000",
+      "RegionStop": "-10091"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "194692",
+      "RegionStop": "195301"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "-354550",
+      "RegionStop": "-353791"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "-398200",
+      "RegionStop": "-397591"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "-431500",
+      "RegionStop": "-430541"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "-469250",
+      "RegionStop": "-468641"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "63942",
+      "RegionStop": "64771"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab2",
+      "RegionStart": "-80900",
+      "RegionStop": "-80041"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "1092",
+      "RegionStop": "2551"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-173800",
+      "RegionStop": "-173141"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-245030",
+      "RegionStop": "-244401"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-354520",
+      "RegionStop": "-353731"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-359800",
+      "RegionStop": "-359191"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-431500",
+      "RegionStop": "-430691"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-495550",
+      "RegionStop": "-494791"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-516050",
+      "RegionStop": "-515091"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-553160",
+      "RegionStop": "-552511"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "-558230",
+      "RegionStop": "-557101"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab4",
+      "RegionStart": "90382",
+      "RegionStop": "91001"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "1092",
+      "RegionStop": "2501"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "-245030",
+      "RegionStop": "-244401"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "-354520",
+      "RegionStop": "-353731"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "-398250",
+      "RegionStop": "-397391"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "-516150",
+      "RegionStop": "-515291"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "-519300",
+      "RegionStop": "-518441"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab6",
+      "RegionStart": "-558230",
+      "RegionStop": "-557501"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "1012",
+      "RegionStop": "2501"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-245030",
+      "RegionStop": "-244401"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-354520",
+      "RegionStop": "-353731"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-398300",
+      "RegionStop": "-397591"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-431500",
+      "RegionStop": "-430541"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-495550",
+      "RegionStop": "-494791"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-516050",
+      "RegionStop": "-515091"
+    },
+    {
+      "Gene": "PROX1",
+      "TiledRegionStart": "-199487",
+      "TiledRegionStop": "639245",
+      "GeneStart": "0",
+      "GeneStop": "48905",
+      "Mark": "Ab7",
+      "RegionStart": "-519300",
+      "RegionStop": "-518441"
+    }
+  ],
+  "IRF6": [
+    {
+      "Gene": "IRF6",
+      "TiledRegionStart": "-22861",
+      "TiledRegionStop": "20530",
+      "GeneStart": "0",
+      "GeneStop": "18924",
+      "Mark": "Ab2",
+      "RegionStart": "600",
+      "RegionStop": "1359"
+    },
+    {
+      "Gene": "IRF6",
+      "TiledRegionStart": "-22861",
+      "TiledRegionStop": "20530",
+      "GeneStart": "0",
+      "GeneStop": "18924",
+      "Mark": "Ab4",
+      "RegionStart": "-500",
+      "RegionStop": "359"
+    },
+    {
+      "Gene": "IRF6",
+      "TiledRegionStart": "-22861",
+      "TiledRegionStop": "20530",
+      "GeneStart": "0",
+      "GeneStop": "18924",
+      "Mark": "Ab6",
+      "RegionStart": "-300",
+      "RegionStop": "909"
+    }
+  ],
+  "CD34": [
+    {
+      "Gene": "CD34",
+      "TiledRegionStart": "-122039",
+      "TiledRegionStop": "102992",
+      "GeneStart": "0",
+      "GeneStop": "22371",
+      "Mark": "Ab2",
+      "RegionStart": "37902",
+      "RegionStop": "39111"
+    },
+    {
+      "Gene": "CD34",
+      "TiledRegionStart": "-122039",
+      "TiledRegionStop": "102992",
+      "GeneStart": "0",
+      "GeneStop": "22371",
+      "Mark": "Ab6",
+      "RegionStart": "-36832",
+      "RegionStop": "-34803"
+    }
+  ],
+  "STAM": [
+    {
+      "Gene": "STAM",
+      "TiledRegionStart": "-18077",
+      "TiledRegionStop": "100412",
+      "GeneStart": "0",
+      "GeneStop": "74226",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1409"
+    }
+  ],
+  "PLXDC2": [
+    {
+      "Gene": "PLXDC2",
+      "TiledRegionStart": "-1277131",
+      "TiledRegionStop": "562356",
+      "GeneStart": "0",
+      "GeneStop": "395793",
+      "Mark": "Ab4",
+      "RegionStart": "32",
+      "RegionStop": "841"
+    },
+    {
+      "Gene": "PLXDC2",
+      "TiledRegionStart": "-1277131",
+      "TiledRegionStop": "562356",
+      "GeneStart": "0",
+      "GeneStop": "395793",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "959"
+    }
+  ],
+  "NOTCH1": [
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "0",
+      "RegionStop": "809"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-12501",
+      "RegionStop": "-11192"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-14851",
+      "RegionStop": "-13392"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-21001",
+      "RegionStop": "-19622"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-27061",
+      "RegionStop": "-26312"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-2801",
+      "RegionStop": "-1492"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-34601",
+      "RegionStop": "-33982"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "41291",
+      "RegionStop": "43950"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-42681",
+      "RegionStop": "-41802"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-56451",
+      "RegionStop": "-55342"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab2",
+      "RegionStart": "-74351",
+      "RegionStop": "-73642"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-11301",
+      "RegionStop": "-10592"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-12601",
+      "RegionStop": "-11492"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-14851",
+      "RegionStop": "-13592"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-21751",
+      "RegionStop": "-21122"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-22671",
+      "RegionStop": "-22042"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-27061",
+      "RegionStop": "-26312"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-29451",
+      "RegionStop": "-28642"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "39541",
+      "RegionStop": "40250"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-56441",
+      "RegionStop": "-55422"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-62401",
+      "RegionStop": "-61792"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-72351",
+      "RegionStop": "-71642"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab4",
+      "RegionStart": "-76491",
+      "RegionStop": "-75572"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "2609"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-11301",
+      "RegionStop": "-10592"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-12601",
+      "RegionStop": "-11642"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-14851",
+      "RegionStop": "-13592"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-27061",
+      "RegionStop": "-26312"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "33441",
+      "RegionStop": "34220"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "39541",
+      "RegionStop": "40150"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-40651",
+      "RegionStop": "-39692"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-42681",
+      "RegionStop": "-42002"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-56551",
+      "RegionStop": "-54992"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "56741",
+      "RegionStop": "58330"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab6",
+      "RegionStart": "-76351",
+      "RegionStop": "-75292"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "10391",
+      "RegionStop": "11150"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-11301",
+      "RegionStop": "-10592"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-12601",
+      "RegionStop": "-11542"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-14851",
+      "RegionStop": "-13722"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-27061",
+      "RegionStop": "-26312"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-29451",
+      "RegionStop": "-28292"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "41241",
+      "RegionStop": "42100"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-56551",
+      "RegionStop": "-55292"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "57291",
+      "RegionStop": "58330"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-62401",
+      "RegionStop": "-61792"
+    },
+    {
+      "Gene": "NOTCH1",
+      "TiledRegionStart": "-12808",
+      "TiledRegionStop": "123059",
+      "GeneStart": "0",
+      "GeneStop": "45613",
+      "Mark": "Ab7",
+      "RegionStart": "-76491",
+      "RegionStop": "-75622"
+    }
+  ],
+  "SET": [
+    {
+      "Gene": "SET",
+      "TiledRegionStart": "-13164",
+      "TiledRegionStop": "16723",
+      "GeneStart": "0",
+      "GeneStop": "9752",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "609"
+    },
+    {
+      "Gene": "SET",
+      "TiledRegionStart": "-13164",
+      "TiledRegionStop": "16723",
+      "GeneStart": "0",
+      "GeneStop": "9752",
+      "Mark": "Ab6",
+      "RegionStart": "-15947",
+      "RegionStop": "-15238"
+    }
+  ],
+  "AK1": [
+    {
+      "Gene": "AK1",
+      "TiledRegionStart": "-8700",
+      "TiledRegionStop": "17091",
+      "GeneStart": "0",
+      "GeneStop": "5548",
+      "Mark": "Ab2",
+      "RegionStart": "0",
+      "RegionStop": "2309"
+    },
+    {
+      "Gene": "AK1",
+      "TiledRegionStart": "-8700",
+      "TiledRegionStop": "17091",
+      "GeneStart": "0",
+      "GeneStop": "5548",
+      "Mark": "Ab2",
+      "RegionStart": "-7481",
+      "RegionStop": "-6672"
+    },
+    {
+      "Gene": "AK1",
+      "TiledRegionStart": "-8700",
+      "TiledRegionStop": "17091",
+      "GeneStart": "0",
+      "GeneStop": "5548",
+      "Mark": "Ab4",
+      "RegionStart": "0",
+      "RegionStop": "3059"
+    },
+    {
+      "Gene": "AK1",
+      "TiledRegionStart": "-8700",
+      "TiledRegionStop": "17091",
+      "GeneStart": "0",
+      "GeneStop": "5548",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "6089"
+    },
+    {
+      "Gene": "AK1",
+      "TiledRegionStart": "-8700",
+      "TiledRegionStop": "17091",
+      "GeneStart": "0",
+      "GeneStop": "5548",
+      "Mark": "Ab6",
+      "RegionStart": "1841",
+      "RegionStop": "2870"
+    },
+    {
+      "Gene": "AK1",
+      "TiledRegionStart": "-8700",
+      "TiledRegionStop": "17091",
+      "GeneStart": "0",
+      "GeneStop": "5548",
+      "Mark": "Ab7",
+      "RegionStart": "0",
+      "RegionStop": "2559"
+    }
+  ],
+  "ENG": [
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab2",
+      "RegionStart": "15240",
+      "RegionStop": "16049"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab2",
+      "RegionStart": "-3052",
+      "RegionStop": "-2393"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab2",
+      "RegionStart": "32040",
+      "RegionStop": "32649"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab2",
+      "RegionStart": "33330",
+      "RegionStop": "33949"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab2",
+      "RegionStart": "-652",
+      "RegionStop": "657"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab2",
+      "RegionStart": "7890",
+      "RegionStop": "8749"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab4",
+      "RegionStart": "-15240",
+      "RegionStop": "-14431"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab4",
+      "RegionStart": "3052",
+      "RegionStop": "3711"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab4",
+      "RegionStart": "-33330",
+      "RegionStop": "-32711"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab4",
+      "RegionStart": "-7990",
+      "RegionStop": "-7231"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "609"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab6",
+      "RegionStart": "1302",
+      "RegionStop": "1961"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab6",
+      "RegionStart": "-14840",
+      "RegionStop": "-13631"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab6",
+      "RegionStart": "-33120",
+      "RegionStop": "-32291"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab6",
+      "RegionStart": "-7990",
+      "RegionStop": "-7231"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab6",
+      "RegionStart": "-8990",
+      "RegionStop": "-8281"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab7",
+      "RegionStart": "1352",
+      "RegionStop": "1961"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab7",
+      "RegionStart": "-15290",
+      "RegionStop": "-14531"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab7",
+      "RegionStart": "-7990",
+      "RegionStop": "-7231"
+    },
+    {
+      "Gene": "ENG",
+      "TiledRegionStart": "-11543",
+      "TiledRegionStop": "36014",
+      "GeneStart": "0",
+      "GeneStop": "35523",
+      "Mark": "Ab7",
+      "RegionStart": "-9090",
+      "RegionStop": "-8481"
+    }
+  ],
+  "STXBP1": [
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab2",
+      "RegionStart": "-20101",
+      "RegionStop": "-18882"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab2",
+      "RegionStart": "-26661",
+      "RegionStop": "-26052"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab2",
+      "RegionStart": "-3411",
+      "RegionStop": "-2792"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab4",
+      "RegionStart": "-21061",
+      "RegionStop": "-19702"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab4",
+      "RegionStart": "24081",
+      "RegionStop": "24690"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab4",
+      "RegionStart": "-28011",
+      "RegionStop": "-27052"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab6",
+      "RegionStart": "-20101",
+      "RegionStop": "-19432"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab6",
+      "RegionStart": "-21971",
+      "RegionStop": "-20422"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab6",
+      "RegionStart": "24081",
+      "RegionStop": "24770"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab6",
+      "RegionStart": "-27921",
+      "RegionStop": "-26872"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab7",
+      "RegionStart": "-20101",
+      "RegionStop": "-19432"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab7",
+      "RegionStart": "-21061",
+      "RegionStop": "-19702"
+    },
+    {
+      "Gene": "STXBP1",
+      "TiledRegionStart": "-3557",
+      "TiledRegionStop": "88263",
+      "GeneStart": "0",
+      "GeneStop": "59164",
+      "Mark": "Ab7",
+      "RegionStart": "-28061",
+      "RegionStop": "-27302"
+    }
+  ],
+  "PDK1": [
+    {
+      "Gene": "PDK1",
+      "TiledRegionStart": "-16514",
+      "TiledRegionStop": "108015",
+      "GeneStart": "0",
+      "GeneStop": "29402",
+      "Mark": "Ab4",
+      "RegionStart": "-61185",
+      "RegionStop": "-60536"
+    },
+    {
+      "Gene": "PDK1",
+      "TiledRegionStart": "-16514",
+      "TiledRegionStop": "108015",
+      "GeneStart": "0",
+      "GeneStop": "29402",
+      "Mark": "Ab6",
+      "RegionStart": "-61185",
+      "RegionStop": "-60536"
+    },
+    {
+      "Gene": "PDK1",
+      "TiledRegionStart": "-16514",
+      "TiledRegionStop": "108015",
+      "GeneStart": "0",
+      "GeneStop": "29402",
+      "Mark": "Ab7",
+      "RegionStart": "-61185",
+      "RegionStop": "-60536"
+    }
+  ],
+  "BDNF": [
+    {
+      "Gene": "BDNF",
+      "TiledRegionStart": "-332953",
+      "TiledRegionStop": "216178",
+      "GeneStart": "0",
+      "GeneStop": "52343",
+      "Mark": "Ab2",
+      "RegionStart": "-160344",
+      "RegionStop": "-159685"
+    },
+    {
+      "Gene": "BDNF",
+      "TiledRegionStart": "-332953",
+      "TiledRegionStop": "216178",
+      "GeneStart": "0",
+      "GeneStop": "52343",
+      "Mark": "Ab6",
+      "RegionStart": "119444",
+      "RegionStop": "120053"
+    },
+    {
+      "Gene": "BDNF",
+      "TiledRegionStart": "-332953",
+      "TiledRegionStop": "216178",
+      "GeneStart": "0",
+      "GeneStop": "52343",
+      "Mark": "Ab6",
+      "RegionStart": "-17948",
+      "RegionStop": "-15239"
+    },
+    {
+      "Gene": "BDNF",
+      "TiledRegionStart": "-332953",
+      "TiledRegionStop": "216178",
+      "GeneStart": "0",
+      "GeneStop": "52343",
+      "Mark": "Ab7",
+      "RegionStart": "119444",
+      "RegionStop": "120053"
+    }
+  ],
+  "ACTC1": [
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab2",
+      "RegionStart": "-10813",
+      "RegionStop": "-10144"
+    },
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab4",
+      "RegionStart": "0",
+      "RegionStop": "2109"
+    },
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab4",
+      "RegionStart": "-1253",
+      "RegionStop": "-584"
+    },
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "909"
+    },
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab6",
+      "RegionStart": "279",
+      "RegionStop": "1238"
+    },
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab7",
+      "RegionStart": "-13",
+      "RegionStop": "846"
+    },
+    {
+      "Gene": "ACTC1",
+      "TiledRegionStart": "-14997",
+      "TiledRegionStop": "53883",
+      "GeneStart": "0",
+      "GeneStop": "5522",
+      "Mark": "Ab7",
+      "RegionStart": "279",
+      "RegionStop": "1238"
+    }
+  ],
+  "MRG1": [
+    {
+      "Gene": "MRG1",
+      "TiledRegionStart": "-84301",
+      "TiledRegionStop": "212103",
+      "GeneStart": "0",
+      "GeneStop": "202043",
+      "Mark": "Ab2",
+      "RegionStart": "160734",
+      "RegionStop": "161493"
+    },
+    {
+      "Gene": "MRG1",
+      "TiledRegionStart": "-84301",
+      "TiledRegionStop": "212103",
+      "GeneStart": "0",
+      "GeneStop": "202043",
+      "Mark": "Ab6",
+      "RegionStart": "664",
+      "RegionStop": "4943"
+    },
+    {
+      "Gene": "MRG1",
+      "TiledRegionStart": "-84301",
+      "TiledRegionStop": "212103",
+      "GeneStart": "0",
+      "GeneStop": "202043",
+      "Mark": "Ab6",
+      "RegionStart": "-998",
+      "RegionStop": "371"
+    },
+    {
+      "Gene": "MRG1",
+      "TiledRegionStart": "-84301",
+      "TiledRegionStop": "212103",
+      "GeneStart": "0",
+      "GeneStop": "202043",
+      "Mark": "Ab7",
+      "RegionStart": "1634",
+      "RegionStop": "2293"
+    }
+  ],
+  "B2M": [
+    {
+      "Gene": "B2M",
+      "TiledRegionStart": "-91089",
+      "TiledRegionStop": "13013",
+      "GeneStart": "0",
+      "GeneStop": "5395",
+      "Mark": "Ab2",
+      "RegionStart": "-81860",
+      "RegionStop": "-81201"
+    },
+    {
+      "Gene": "B2M",
+      "TiledRegionStart": "-91089",
+      "TiledRegionStop": "13013",
+      "GeneStart": "0",
+      "GeneStop": "5395",
+      "Mark": "Ab6",
+      "RegionStart": "17660",
+      "RegionStop": "18269"
+    },
+    {
+      "Gene": "B2M",
+      "TiledRegionStart": "-91089",
+      "TiledRegionStop": "13013",
+      "GeneStart": "0",
+      "GeneStop": "5395",
+      "Mark": "Ab6",
+      "RegionStart": "81860",
+      "RegionStop": "82469"
+    }
+  ],
+  "PRNP": [
+    {
+      "Gene": "PRNP",
+      "TiledRegionStart": "-347672",
+      "TiledRegionStop": "40905",
+      "GeneStart": "0",
+      "GeneStop": "28470",
+      "Mark": "Ab2",
+      "RegionStart": "-163533",
+      "RegionStop": "-162624"
+    },
+    {
+      "Gene": "PRNP",
+      "TiledRegionStart": "-347672",
+      "TiledRegionStop": "40905",
+      "GeneStart": "0",
+      "GeneStop": "28470",
+      "Mark": "Ab2",
+      "RegionStart": "36259",
+      "RegionStop": "37018"
+    },
+    {
+      "Gene": "PRNP",
+      "TiledRegionStart": "-347672",
+      "TiledRegionStop": "40905",
+      "GeneStart": "0",
+      "GeneStop": "28470",
+      "Mark": "Ab4",
+      "RegionStart": "163583",
+      "RegionStop": "164492"
+    },
+    {
+      "Gene": "PRNP",
+      "TiledRegionStart": "-347672",
+      "TiledRegionStop": "40905",
+      "GeneStart": "0",
+      "GeneStop": "28470",
+      "Mark": "Ab4",
+      "RegionStart": "-36259",
+      "RegionStop": "-35500"
+    }
+  ],
+  "BMP2": [
+    {
+      "Gene": "BMP2",
+      "TiledRegionStart": "-99837",
+      "TiledRegionStop": "944162",
+      "GeneStart": "0",
+      "GeneStop": "9686",
+      "Mark": "Ab7",
+      "RegionStart": "86418",
+      "RegionStop": "87077"
+    }
+  ],
+  "FKBP1A": [
+    {
+      "Gene": "FKBP1A",
+      "TiledRegionStart": "-31194",
+      "TiledRegionStop": "30133",
+      "GeneStart": "0",
+      "GeneStop": "19192",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1179"
+    }
+  ],
+  "NID1": [
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab2",
+      "RegionStart": "-31949",
+      "RegionStop": "-31200"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab2",
+      "RegionStart": "-35649",
+      "RegionStop": "-33840"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab2",
+      "RegionStart": "-5999",
+      "RegionStop": "-5300"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab2",
+      "RegionStart": "-7599",
+      "RegionStop": "-6860"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab2",
+      "RegionStart": "85947",
+      "RegionStop": "86756"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab2",
+      "RegionStart": "91087",
+      "RegionStop": "91956"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab4",
+      "RegionStart": "-130897",
+      "RegionStop": "-130238"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab4",
+      "RegionStart": "5999",
+      "RegionStop": "6698"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab4",
+      "RegionStart": "8849",
+      "RegionStop": "9538"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab4",
+      "RegionStart": "-91097",
+      "RegionStop": "-90338"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "2509"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "10249",
+      "RegionStop": "10978"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "-15443",
+      "RegionStop": "-14734"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "26399",
+      "RegionStop": "27258"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "27999",
+      "RegionStop": "28728"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "29649",
+      "RegionStop": "30708"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "34889",
+      "RegionStop": "36758"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "5949",
+      "RegionStop": "6698"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "7599",
+      "RegionStop": "8338"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "-85797",
+      "RegionStop": "-85188"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "8799",
+      "RegionStop": "9538"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab6",
+      "RegionStart": "-91097",
+      "RegionStop": "-90238"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab7",
+      "RegionStart": "26649",
+      "RegionStop": "27258"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab7",
+      "RegionStart": "35649",
+      "RegionStop": "36608"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab7",
+      "RegionStart": "5999",
+      "RegionStop": "6698"
+    },
+    {
+      "Gene": "NID1",
+      "TiledRegionStart": "-44104",
+      "TiledRegionStop": "152718",
+      "GeneStart": "0",
+      "GeneStop": "74573",
+      "Mark": "Ab7",
+      "RegionStart": "-91147",
+      "RegionStop": "-90338"
+    }
+  ],
+  "DNMT3B": [
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab2",
+      "RegionStart": "268",
+      "RegionStop": "1077"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab2",
+      "RegionStart": "46418",
+      "RegionStop": "47177"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab4",
+      "RegionStart": "-168",
+      "RegionStop": "691"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab4",
+      "RegionStart": "-46418",
+      "RegionStop": "-45659"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab6",
+      "RegionStart": "-11168",
+      "RegionStop": "-10059"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab6",
+      "RegionStart": "-168",
+      "RegionStop": "1291"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab6",
+      "RegionStart": "-46418",
+      "RegionStop": "-45659"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab7",
+      "RegionStart": "-11168",
+      "RegionStop": "-10159"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab7",
+      "RegionStart": "-168",
+      "RegionStop": "691"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab7",
+      "RegionStart": "-46418",
+      "RegionStop": "-45659"
+    },
+    {
+      "Gene": "DNMT3B",
+      "TiledRegionStart": "-16723",
+      "TiledRegionStop": "47198",
+      "GeneStart": "0",
+      "GeneStop": "38273",
+      "Mark": "Ab7",
+      "RegionStart": "9724",
+      "RegionStop": "10353"
+    }
+  ],
+  "E2F1": [
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab2",
+      "RegionStart": "5172",
+      "RegionStop": "6031"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab2",
+      "RegionStart": "-7540",
+      "RegionStop": "-6751"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab4",
+      "RegionStart": "-7070",
+      "RegionStop": "-6011"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab4",
+      "RegionStart": "8272",
+      "RegionStop": "9331"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab6",
+      "RegionStart": "0",
+      "RegionStop": "1509"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab6",
+      "RegionStart": "14022",
+      "RegionStop": "15331"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab6",
+      "RegionStart": "-7120",
+      "RegionStop": "-6161"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab6",
+      "RegionStart": "772",
+      "RegionStop": "1421"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab6",
+      "RegionStart": "8272",
+      "RegionStop": "9331"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab7",
+      "RegionStart": "14612",
+      "RegionStop": "15341"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab7",
+      "RegionStart": "-20",
+      "RegionStop": "889"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab7",
+      "RegionStart": "-7120",
+      "RegionStop": "-6161"
+    },
+    {
+      "Gene": "E2F1",
+      "TiledRegionStart": "-9589",
+      "TiledRegionStop": "27405",
+      "GeneStart": "0",
+      "GeneStop": "10213",
+      "Mark": "Ab7",
+      "RegionStart": "8272",
+      "RegionStop": "9331"
+    }
+  ]
+};
+
+$.each(data, function (key, obj) {
+            console.log(key, obj)
+            $('<div />', {
+                id: key,
+                <!--HTML:"<p class='name'>"+obj[0].Gene+"</p>",-->
+                class:"panel"   
+                }).append("<p class='name'>"+obj[0].Gene+"</p>")
+		.appendTo('#Content')
+        });
+
+
+$( function() {
+  // init Isotope
+  var $container =$('#Content');
+ $container.packery({
+    "itemSelector": ".panel",
+    "gutter": 10,
+    "columnWidth": 60,
+    "rowHeight":80
+    });
+
+  var isHorizontal = false;
+  var $window = $( window );
+  var $itemElems = $( $container.packery('getItemElements') );
+// make item elements draggable
+$itemElems.draggable();
+// bind Draggable events to Packery
+$container.packery( 'bindUIDraggableEvents', $itemElems ); 
+
+
+  $('#layout-mode-button-group').on( 'click', 'button', function() {
+    // adjust container sizing if layout mode is changing from vertical or horizontal
+    var $this = $(this);
+    var isHorizontalMode = !!$this.attr('data-is-horizontal');
+    if ( isHorizontal !== isHorizontalMode ) {
+      // change container size if horiz/vert change
+      var containerStyle = isHorizontalMode ? {
+        height: $window.height() * 0.7
+      } : {
+        width: 'auto'
+      };
+      $container.css( containerStyle );
+      isHorizontal = isHorizontalMode;
+    }
+    // change layout mode
+    var layoutModeValue = $this.attr('data-layout-mode-value');
+    $container.isotope({ layoutMode: layoutModeValue });
+  });  
+
+
+
+
+  // filter functions
+  var filterFns = {
+    // show if number is greater than 50
+    numberGreaterThan50: function() {
+      var number = $(this).find('.number').text();
+      return parseInt( number, 10 ) > 50;
+    },
+    // show if name ends with -ium
+    ium: function() {
+      var name = $(this).find('.name').text();
+      return name.match( /ium$/ );
+    }
+  };
+
+  // bind filter button click
+  $('#filters').on( 'click', 'button', function() {
+    var filterValue = $( this ).attr('data-filter-value');
+    // use filterFn if matches value
+    filterValue = filterFns[ filterValue ] || filterValue;
+    $container.isotope({ filter: filterValue });
+  });
+
+  // bind sort button click
+  $('#sorts').on( 'click', 'button', function() {
+    var sortValue = $(this).attr('data-sort-value');
+    $container.isotope({ sortBy: sortValue });
+  });
+  
+  // change is-checked class on buttons
+  $('.button-group').each( function( i, buttonGroup ) {
+    var $buttonGroup = $( buttonGroup );
+    $buttonGroup.on( 'click', 'button', function() {
+      $buttonGroup.find('.is-checked').removeClass('is-checked');
+      $( this ).addClass('is-checked');
+    });
+  });
+  
+});
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+<html>
+<head>
+ <!-- <script src="http://d3js.org/d3.v3.min.js"
+  charset="utf-8"></script>-->
+  <script type="text/javascript" src="./javascripts/d3.v3.min.js"></script>
+  <script type="text/javascript"
+  src="./javascripts/jquery-1.11.0.js"></script>
+  <script type="text/javascript"
+  src="./javascripts/isotope.pkgd.js"></script>
+  <script type="text/javascript"
+  src="./javascripts/underscore-min.js"></script>
+  <script type="text/javascript" src="./index.js"></script>
+  <style type="text/css" media="screen">
+    .panel { width: 25%;
+    background-color: lightblue;
+    margin: 5px;
+    padding: 30px;
+    }
+    
+    .chart rect {
+    fill: steelblue;
+    }
+
+    .chart text {
+    fill: white;
+    font: 10px sans-serif;
+    text-anchor: end;
+    }
+
+    .axis path,
+    .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+    }
+
+    .axis text {
+    font-family: sans-serif;
+    font-size: 11px;
+    }
+    
+    div {
+    font-family: sans-serif;
+    }
+    
+    p {  margin-top: 0.6em; margin-bottom: 0em; }
+
+
+    .button {
+    display: inline-block;
+    padding: 0.5em 1.0em;
+    background: #EEE;
+    border: none;
+    border-radius: 7px;
+    background-image: linear-gradient( to bottom, hsla(0, 0%, 0%, 0), hsla(0, 0%, 0%, 0.2) );
+    color: #222;
+    font-family: sans-serif;
+    font-size: 16px;
+    text-shadow: 0 1px white;
+    cursor: pointer;
+    }
+
+    .button:hover {
+    background-color: #8CF;
+    text-shadow: 0 1px hsla(0, 0%, 100%, 0.5);
+    color: #222;
+    }
+
+    .button:active,
+    .button.is-checked {
+    background-color: #28F;
+    }
+
+    .button.is-checked {
+    color: white;
+    text-shadow: 0 -1px hsla(0, 0%, 0%, 0.8);
+    }
+
+    .button:active {
+    box-shadow: inset 0 1px 10px hsla(0, 0%, 0%, 0.8);
+    }
+
+    /* ---- button-group ---- */
+
+    .button-group:after {
+    content: '';
+    display: block;
+    clear: both;
+    }
+
+    .button-group .button {
+    float: left;
+    border-radius: 0;
+    margin-left: 0;
+    margin-right: 1px;
+    }
+
+    .button-group .button:first-child { border-radius: 0.5em 0 0 0.5em; }
+    .button-group .button:last-child { border-radius: 0 0.5em 0.5em 0; }
+
+    /* ---- isotope ---- */
+
+    .isotope {
+    border: 1px solid #333;
+    }
+
+    /* clear fix */
+    .isotope:after {
+    content: '';
+    display: block;
+    clear: both;
+    }
+    
+  </style>
+</head>
+  
+<body>
+
+<div id="Controls">
+<!-- <h2>Layout</h2>
+<div id="layout-mode-button-group" class="button-group">
+  <button class="button is-checked" data-layout-mode-value="masonry" checked="checked">masonry</button>
+  <button class="button" data-layout-mode-value="fitRows">fitRows</button>
+  <button class="button" data-layout-mode-value="cellsByRow">cellsByRow</button>
+  <button class="button" data-layout-mode-value="vertical"> vertical</button>
+  <button class="button" data-layout-mode-value="masonryHorizontal" data-is-horizontal="true">masonryHorizontal</button>
+  <button class="button" data-layout-mode-value="fitColumns" data-is-horizontal="true">fitColumns</button>
+  <button class="button" data-layout-mode-value="cellsByColumn" data-is-horizontal="true">cellsByColumn</button>
+  <button class="button" data-layout-mode-value="horizontal" data-is-horizontal="true">horizontal</button>
+</div> -->
+
+<h2>Filter</h2>
+
+<div id="filters" class="button-group">
+  <button class="button is-checked" data-filter-value="*">Show All</button>
+  <button class="button" data-filter-value="filterText">Name</button>
+  <button class="button" data-filter-value="filterSignificantMarks">Marks</button>
+  
+</div>
+<div id="filterTextDiv">
+Show genes with 
+<input id="filterText" class="filterText" type="text"> </input>
+in their name
+</div>
+
+<div id="filterSignificantMarksDiv" class="filters">
+Show genes with less than
+  <input type="text" id="filterSiginicantMarks"
+  class="filterSignificantMarks"/>
+marks of any type
+</div> 
+
+<div id="legend" class="legend">
+
+</div> 
+
+<h2>Sort</h2>
+<div id="sorts" class="button-group">
+  <button class="button is-checked" data-sort-value="original-order">Original Order</button>
+  <button class="button" data-sort-value="name">Name</button>  
+  <button class="button" data-sort-value="tiledregionlength">Tiled
+  Region Length</button>
+
+
+</div>
+</div>
+<div id="Content">
+  Hello World!
+</div>  
+  
+  <script>
+   main();
+  
+  </script>
+
+</body>
+</html>
