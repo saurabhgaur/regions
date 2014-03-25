@@ -1,22 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+
 <html>
 <head>
- <!-- <script src="http://d3js.org/d3.v3.min.js"
+    <!-- <script src="http://d3js.org/d3.v3.min.js"
   charset="utf-8"></script>-->
-  <script type="text/javascript" src="./javascripts/d3.v3.min.js"></script>
-  <script type="text/javascript"
-  src="./javascripts/jquery-1.11.0.js"></script>
-  <script type="text/javascript"
-  src="./javascripts/isotope.pkgd.js"></script>
-  <script type="text/javascript"
-  src="./javascripts/underscore-min.js"></script>
-  <script type="text/javascript" src="./index.js"></script>
-  <style type="text/css" media="screen">
-    .panel { width: 25%;
+
+    <script src="./javascripts/d3.v3.min.js"
+    type="text/javascript"></script>
+
+    <script src="./javascripts/jquery-1.11.0.js"
+    type="text/javascript"></script>
+
+    <script src="./javascripts/isotope.pkgd.js"
+    type="text/javascript"></script>
+
+
+    <script src="./javascripts/underscore-min.js"
+    type="text/javascript"></script>
+
+
+    <script src="./javascripts/jquery.slimscroll.min.js"
+    type="text/javascript"></script>
+
+
+    <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="./index.js" type="text/javascript"></script>
+    
+   
+
+    <link rel="./css/font-awesome.min.css" href="url" type="text/css" media="screen" />
+
+    <style media="screen" type="text/css">
+      
+    .vizpanel { width: 440px;
     background-color: lightblue;
     margin: 5px;
-    padding: 30px;
+    padding: 10px;
     }
-    
+
     .chart rect {
     fill: steelblue;
     }
@@ -38,11 +66,11 @@
     font-family: sans-serif;
     font-size: 11px;
     }
-    
+
     div {
     font-family: sans-serif;
     }
-    
+
     p {  margin-top: 0.6em; margin-bottom: 0em; }
 
 
@@ -110,68 +138,95 @@
     display: block;
     clear: both;
     }
-    
-  </style>
+
+    .panel-heading a:after {
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";    
+    float: right; 
+    color: grey; 
+    }
+
+    .panel-heading a.collapsed:after {
+    content: "\e080";
+    }
+
+    </style>
+
+    <title></title>
 </head>
-  
+
 <body>
 
-<div id="Controls">
-<!-- <h2>Layout</h2>
-<div id="layout-mode-button-group" class="button-group">
-  <button class="button is-checked" data-layout-mode-value="masonry" checked="checked">masonry</button>
-  <button class="button" data-layout-mode-value="fitRows">fitRows</button>
-  <button class="button" data-layout-mode-value="cellsByRow">cellsByRow</button>
-  <button class="button" data-layout-mode-value="vertical"> vertical</button>
-  <button class="button" data-layout-mode-value="masonryHorizontal" data-is-horizontal="true">masonryHorizontal</button>
-  <button class="button" data-layout-mode-value="fitColumns" data-is-horizontal="true">fitColumns</button>
-  <button class="button" data-layout-mode-value="cellsByColumn" data-is-horizontal="true">cellsByColumn</button>
-  <button class="button" data-layout-mode-value="horizontal" data-is-horizontal="true">horizontal</button>
-</div> -->
 
-<h2>Filter</h2>
+    <div class="panel-group" id="accordion">
+        <div class="panel panel-default collapsed" id="panel1">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+		  <a  class="collapsed" data-target="#collapseOne"
+                     data-toggle="collapse" href="#collapseOne">
+		    Controls
+		  </a>
+		</h4>
+            </div>
 
-<div id="filters" class="button-group">
-  <button class="button is-checked" data-filter-value="*">Show All</button>
-  <button class="button" data-filter-value="filterText">Name</button>
-  <button class="button" data-filter-value="filterSignificantMarks">Marks</button>
-  
-</div>
-<div id="filterTextDiv">
-Show genes with 
-<input id="filterText" class="filterText" type="text"> </input>
-in their name
-</div>
+            <div class="panel-collapse collapse" id="collapseOne">
+                <div class="panel-body">
+                    <h4>Filter</h4>
 
-<div id="filterSignificantMarksDiv" class="filters">
-Show genes with less than
-  <input type="text" id="filterSiginicantMarks"
-  class="filterSignificantMarks"/>
-marks of any type
-</div> 
+                    <div class="button-group" id="filters">
+                        <button class="button is-checked" data-filter-value=
+                        "*">Show All</button> <button class="button"
+                        data-filter-value="filterText">Name</button>
+                        <button class="button" data-filter-value=
+                        "filterSignificantMarks">Marks</button>
+                    </div>
 
-<div id="legend" class="legend">
+                    <div id="filterTextDiv">
+                        Show genes with <input class="filterText" id=
+                        "filterText" type="text"> in their name
+                    </div>
 
-</div> 
+                    <div class="filters" id="filterSignificantMarksDiv">
+                        Show genes with less than <input class=
+                        "filterSignificantMarks" id="filterSiginicantMarks"
+                        type="text"> marks of any type
+                    </div>
 
-<h2>Sort</h2>
-<div id="sorts" class="button-group">
-  <button class="button is-checked" data-sort-value="original-order">Original Order</button>
-  <button class="button" data-sort-value="name">Name</button>  
-  <button class="button" data-sort-value="tiledregionlength">Tiled
-  Region Length</button>
+                    <div class="legend" id="legend"></div>
 
+                    <h4>Sort</h4>
 
-</div>
-</div>
-<div id="Content">
-  Hello World!
-</div>  
-  
-  <script>
-   main();
-  
-  </script>
+                    <div class="button-group" id="sorts">
+                        <button class="button is-checked" data-sort-value=
+                        "original-order">Original Order</button> <button class=
+                        "button" data-sort-value="name">Name</button>
+                        <button class="button" data-sort-value=
+                        "tiledregionlength">Tiled Region Length</button>
+                    </div>
+                </div> <!-- panel-body -->
+            </div> <!-- panel-collapse -->
+        </div> <!-- panel1 -->
+<!-- </div> -->
+<div class="panel panel-default collapsed" id="panel2">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+	      <a class="collapsed" data-target= "#collapseTwo" data-toggle="collapse" href=
+            "#collapseTwo">Visualizations</a></h4>
+        </div>
 
+        <div class="panel-collapse collapse in" id="collapseTwo">
+            <div class="panel-body">
+                <div id="Content">
+                    Hello World!
+                </div>
+
+		<script type="text/javascript">
+		  main();
+		</script>
+            </div>
+
+        </div>
+    </div>
+ </div>
 </body>
 </html>

@@ -106,7 +106,7 @@ function bindData(json){
         //console.log(key, obj);
         $('<div />', {
             id: key,
-            class:"panel"   
+            class:"vizpanel"   
         })
 	.append("<div class='name'>"+obj[0].Gene+"</div>")
 	.append("<div class='tiledregionlength'>"+(obj[0].TiledRegionStop - obj[0].TiledRegionStart)+"</div>")
@@ -119,7 +119,7 @@ function bindData(json){
 function layoutPanels() {
   // init Isotope
     var $container =$('#Content').isotope({
-    itemSelector: '.panel',
+    itemSelector: '.vizpanel',
     layoutMode: 'masonry',
     masonry: {
       columnWidth: 80,
@@ -281,6 +281,13 @@ function drawLegend(dataset) {
 function main(){
     
     d3.select("#Content");
+    $("#collapseTwo").slimScroll(
+	{
+	    size: '12px',
+	    height:'650px',
+	    alwaysVisible: true
+	});
+
     d3.csv("G0_Input_Without_Ab3.csv", function(csv){
 
 	domain = _.uniq(_.pluck(csv,"Mark")).sort();
