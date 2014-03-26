@@ -281,12 +281,6 @@ function drawLegend(dataset) {
 function main(){
     
     d3.select("#Content");
-    $("#collapseTwo").slimScroll(
-	{
-	    size: '12px',
-	    height:'650px',
-	    alwaysVisible: true
-	});
 
     d3.csv("G0_Input_Without_Ab3.csv", function(csv){
 
